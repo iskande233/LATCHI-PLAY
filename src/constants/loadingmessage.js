@@ -1,4 +1,7 @@
 export default [
+    "جاري تحميل البيانات...",
+    "يرجى الانتظار قليلاً...",
+    "جارٍ تجهيز الفيديو...",
     "Reticulating splines...",
     "Generating witty dialog...",
     "Swapping time and space...",

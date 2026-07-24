@@ -1,4 +1,5 @@
 import React from 'react';
+import { Dimensions } from 'react-native';
 import Splash from '~/screens/Splash';
 import StartUp from '~/screens/StartUp';
 import Details from './src/screens/Details';
@@ -15,11 +16,16 @@ import Orientation from 'react-native-orientation-locker';
 const Stack = createStackNavigator();
 
 const App = () => {
+  const { width, height } = Dimensions.get('screen');
+  const isTV = width >= 1280 || height >= 720;
 
-  // Lock to portrait on app startup
   React.useEffect(() => {
-    Orientation.lockToPortrait();
-  }, []);
+    if (isTV) {
+      Orientation.lockToLandscape();
+    } else {
+      Orientation.lockToPortrait();
+    }
+  }, [isTV]);
 
   return (
     <Provider store={store}>

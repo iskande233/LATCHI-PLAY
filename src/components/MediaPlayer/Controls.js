@@ -200,7 +200,7 @@ const Controls = ({
                         fontWeight: 'bold',
                     }}
                 >
-                    {trim(title) || "Movie"}
+                    {trim(title) || "فيلم"}
                 </Text>
                 {upperRightComponent}
             </View>
@@ -273,7 +273,7 @@ const Controls = ({
                                     </View>
                                 </>
                             ) : status == "error" ? (
-                                <Text style={{ color: colors.white, fontSize: 20, fontWeight: 'bold' }}>No Video Available :(</Text>
+                                <Text style={{ color: colors.white, fontSize: 20, fontWeight: 'bold' }}>لا يوجد فيديو متاح</Text>
                             ) : (
                                 // ADD more Controls HERE
                                 <></>
@@ -428,7 +428,7 @@ const Controls = ({
                                 paddingHorizontal: 5,
                             }}
                         >
-                            Next Eposide
+                            الحلقة التالية
                         </Text>
                     </TouchableOpacity>
                 }

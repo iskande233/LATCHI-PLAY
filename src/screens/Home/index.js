@@ -86,12 +86,12 @@ const Home = ({ isFocused, navigation }) => {
                     navigation={navigation}
                     onRemove={handleRemoveContinueWatching}
                 />
-                <MovieList key={Math.floor(Math.random() * 10000) + 1} title="Top Rated" movies={popular_movie} navigation={navigation} />
-                <MovieList key={Math.floor(Math.random() * 10000) + 1} title="Horror" movies={horror_movie} navigation={navigation} />
-                <MovieList key={Math.floor(Math.random() * 10000) + 1}  title="Action" movies={action_movie} navigation={navigation} />
-                <MovieList key={Math.floor(Math.random() * 10000) + 1}  title="Comedy" movies={comedy_movie} navigation={navigation} />
-                <MovieList key={Math.floor(Math.random() * 10000) + 1}  title="Romance" movies={romance_movie} navigation={navigation} />
-                <MovieList key={Math.floor(Math.random() * 10000) + 1}  title="TV Show" movies={tv_show} navigation={navigation} />
+                <MovieList key={Math.floor(Math.random() * 10000) + 1} title="الأعلى تقييماً" movies={popular_movie} navigation={navigation} />
+                <MovieList key={Math.floor(Math.random() * 10000) + 1} title="رعب" movies={horror_movie} navigation={navigation} />
+                <MovieList key={Math.floor(Math.random() * 10000) + 1}  title="أكشن" movies={action_movie} navigation={navigation} />
+                <MovieList key={Math.floor(Math.random() * 10000) + 1}  title="كوميديا" movies={comedy_movie} navigation={navigation} />
+                <MovieList key={Math.floor(Math.random() * 10000) + 1}  title="رومانسية" movies={romance_movie} navigation={navigation} />
+                <MovieList key={Math.floor(Math.random() * 10000) + 1}  title="مسلسلات" movies={tv_show} navigation={navigation} />
             </ScrollView>
             <CreditsModal
                 isOpen={openCredits}

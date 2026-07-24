@@ -119,10 +119,10 @@ export const buildVidkingEmbedUrl = ({ tmdbId, type = 'movie', season, episode }
   }
 
   if (type === 'tv') {
-    return `https://www.vidfast.pro/embed/tv/${id}/${season || 1}/${episode || 1}?autoPlay=true&subtitle=english`;
+    return `https://vidfast.pro/tv/${id}/${season || 1}/${episode || 1}?autoPlay=true&subtitle=english`;
   }
 
-  return `https://www.vidfast.pro/embed/movie/${id}?autoPlay=true&subtitle=english`;
+  return `https://vidfast.pro/movie/${id}?autoPlay=true&subtitle=english`;
 };
 
 export const loadMovieStream = async tmdbId => ({

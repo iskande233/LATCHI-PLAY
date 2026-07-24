@@ -546,7 +546,7 @@ const Details = ({ navigation, route }) => {
           }}>
           <ActivityIndicator size="large" color={colors.red} />
           <Text style={{ color: colors.white, marginTop: 10 }}>
-            Loading video...
+            جاري تحميل الفيديو...
           </Text>
         </View>
       ) : status === 'error' ? (
@@ -558,7 +558,7 @@ const Details = ({ navigation, route }) => {
             backgroundColor: colors.black,
           }}>
           <Text style={{ color: colors.white, fontSize: 16 }}>
-            No video available
+            الفيديو غير متاح
           </Text>
           <TouchableOpacity
             onPress={() => {
@@ -575,7 +575,7 @@ const Details = ({ navigation, route }) => {
               backgroundColor: colors.red,
               borderRadius: 5,
             }}>
-            <Text style={{ color: colors.white }}>Retry</Text>
+            <Text style={{ color: colors.white }}>إعادة المحاولة</Text>
           </TouchableOpacity>
         </View>
       ) : (
@@ -639,7 +639,7 @@ const Details = ({ navigation, route }) => {
                           color: colors.white,
                           textTransform: 'capitalize',
                         }}>
-                        {k?.name}: {k?.data != '' ? k?.data : 'No Data'}
+                        {k?.name}: {k?.data != '' ? k?.data : 'لا توجد بيانات'}
                       </Text>
                     </View>
                   );
@@ -655,7 +655,7 @@ const Details = ({ navigation, route }) => {
                   <ActivityIndicator size="large" color={colors.red} />
                 </View>
               ) : (
-                <Text style={{ color: colors.white }}>No details available</Text>
+                <Text style={{ color: colors.white }}>لا توجد تفاصيل</Text>
               )}
             </View>
           </View>
@@ -679,7 +679,7 @@ const Details = ({ navigation, route }) => {
                   style={{
                     color: colors.white,
                   }}>
-                  {details?.description || 'No Description'}
+                  {details?.description || 'لا يوجد وصف'}
                 </Text>
               </View>
               <View
@@ -700,7 +700,7 @@ const Details = ({ navigation, route }) => {
                   style={{
                     color: colors.white,
                   }}>
-                  {details?.country || 'No Data'}
+                  {details?.country || 'لا توجد بيانات'}
                 </Text>
               </View>
 
@@ -722,7 +722,7 @@ const Details = ({ navigation, route }) => {
                   style={{
                     color: colors.white,
                   }}>
-                  {details?.production || 'No Data'}
+                  {details?.production || 'لا توجد بيانات'}
                 </Text>
               </View>
             </>
@@ -734,10 +734,10 @@ const Details = ({ navigation, route }) => {
                 alignItems: 'center',
               }}>
               <ActivityIndicator size="large" color={colors.red} />
-              <Text style={{ color: colors.white, marginTop: 10 }}>Loading details...</Text>
+              <Text style={{ color: colors.white, marginTop: 10 }}>جاري تحميل التفاصيل...</Text>
             </View>
           ) : (
-            <Text style={{ color: colors.white, padding: 10 }}>No additional details available</Text>
+            <Text style={{ color: colors.white, padding: 10 }}>لا توجد معلومات إضافية</Text>
           )}
           {movie.type === 'tv' &&
             (console.log('SeasonData:', seasonData),
@@ -760,7 +760,7 @@ const Details = ({ navigation, route }) => {
         {recommended?.length > 0 && (
           <MovieList
             key={Math.floor(Math.random() * 10000) + 1}
-            title="You May Also Like"
+            title="قد يعجبك أيضاً"
             movies={recommended}
             navigation={navigation}
           />
