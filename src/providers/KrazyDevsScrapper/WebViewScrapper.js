@@ -8,7 +8,7 @@ const isPlayableUrl = url => {
   }
 
   const clean = url.split('?')[0].toLowerCase();
-  return clean.includes('.m3u8') || clean.endsWith('.mp4') || clean.endsWith('.mkv') || clean.endsWith('.webm');
+  return clean.includes('.m3u8') || clean.endsWith('.mp4') || clean.endsWith('.mkv') || clean.endsWith('.webm') || clean.endsWith('.ts');
 };
 
 const buildInjectedScript = () => `
@@ -29,7 +29,7 @@ const buildInjectedScript = () => `
   function maybeSend(url, source) {
     if (!url || typeof url !== 'string') return;
     var lower = url.toLowerCase();
-    var playable = lower.indexOf('.m3u8') !== -1 || /\.(mp4|mkv|webm)(\?|$)/.test(lower);
+    var playable = lower.indexOf('.m3u8') !== -1 || /\.(mp4|mkv|webm|ts)(\?|$)/.test(lower);
     if (!playable || sent[url]) return;
     sent[url] = true;
     send('video', {
@@ -98,7 +98,7 @@ const WebViewScrapper = ({ websiteUrl, onDataExtracted, onLoading }) => {
         onLoading?.(false);
         onDataExtracted?.({ error: 'Timed out while extracting video URL' });
       }
-    }, 25000);
+    }, 35000);
 
     return () => {
       if (timeoutRef.current) {
@@ -122,12 +122,19 @@ const WebViewScrapper = ({ websiteUrl, onDataExtracted, onLoading }) => {
 
   const handleMessage = event => {
     try {
-      const data = JSON.parse(event.nativeEvent.data);
+      const msg = event.nativeEvent?.data || '';
+      console.log('WebViewScrapper message:', msg);
+      const data = JSON.parse(msg);
+      console.log('WebViewScrapper parsed data:', data);
       if (data?.type === 'video') {
         complete(data);
+      } else if (data?.type === 'ready') {
+        console.log('WebViewScrapper ready:', data.url);
+      } else if (data?.error) {
+        console.warn('WebViewScrapper site error:', data);
       }
     } catch (error) {
-      // Ignore non-JSON messages from the embedded player.
+      console.log('WebViewScrapper non-JSON message:', event.nativeEvent?.data);
     }
   };
 

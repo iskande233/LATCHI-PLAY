@@ -28,6 +28,7 @@ import { useSelector } from 'react-redux';
 const Details = ({ navigation, route }) => {
   const { player_type } = useSelector(state => state.profile);
   const { movie, continueWatchingData } = route.params;
+  const [manualPlayTriggered, setManualPlayTriggered] = useState(false);
 
   // State management
   const [video, setVideo] = useState(null);
@@ -331,11 +332,10 @@ const Details = ({ navigation, route }) => {
       getEpisodesVidking();
       // Don't fetch TV subtitles here - wait for episode selection
     } else {
-      getVideoVidking();
-      // Fetch wyzie subtitles for movies
+      // Movie: don't auto-start video; wait for user to press Play button
+      // Fetch subtitles for movies (optional)
       fetchWyzieSubtitles();
       
-      // Set initial seek time for movies if available from continue watching
       if (continueWatchingData?.progress) {
         setInitialSeekTime(continueWatchingData.progress);
       }
@@ -658,6 +658,31 @@ const Details = ({ navigation, route }) => {
                 <Text style={{ color: colors.white }}>لا توجد تفاصيل</Text>
               )}
             </View>
+              {/* Play Button for Movies */}
+              {movie.type !== 'tv' && (
+                <TouchableOpacity
+                  onPress={() => {
+                    setManualPlayTriggered(true);
+                    getVideoVidking();
+                  }}
+                  style={{
+                    marginHorizontal: 10,
+                    marginTop: 10,
+                    backgroundColor: colors.red,
+                    paddingVertical: 14,
+                    borderRadius: 10,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                  activeOpacity={0.8}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Icon name="play" size={28} color={colors.white} />
+                    <Text style={{ color: colors.white, fontSize: 18, fontWeight: 'bold', marginLeft: 10 }}>
+                      تشغيل الفيلم
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              )}
           </View>
           {details ? (
             <>
