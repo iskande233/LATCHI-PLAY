@@ -1,103 +1,117 @@
-import React from 'react'
+import React from 'react';
 import { View, TouchableOpacity, Image, Text, ActivityIndicator } from 'react-native';
-import tmdb from '~/api/tmdb'
-import solarmovie from '../../api/solarmovie';
 import { colors } from '~/constants/theme';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-
 const TvEpisodes = ({ episodeData, setSelectedEpisode, selectedEpisode, isLoaded }) => {
-
+  if (!episodeData || episodeData.length === 0) {
     return (
-        <View
-            style={{
-                flex: 1,
-                zIndex: 10,
-                flexDirection: 'column',
-                height: '100%',
-            }}
-        >
-            {
-                episodeData?.map(episode => (
-                    <TouchableOpacity
-                        key={episode.id}
-                        onPress={() => {
-                            setSelectedEpisode(episode)
-                        }}>
-                        <View
-                            style={{
-                                flexDirection: 'row',
-                                justifyContent: 'space-between',
-                                padding: 10,
-                                margin: 10,
-                                borderWidth: 1,
-                                borderRadius: 10,
-                                borderColor: selectedEpisode?.id === episode.id ? colors.white : colors.black,
-                            }}
-                        >
-                            <Image
-                                source={episode?.image ? { uri: episode.image } : require('~/assets/logo/logo.png')}
-                                style={{
-                                    borderRadius: 10,
-                                    marginHorizontal: 10,
-                                    width: 100,
-                                    height: 50,
-                                }}
-                                onError={() => {
-                                    console.log('Failed to load episode image:', episode?.image);
-                                }}
-                            />
-                            <View
-                                style={{
-                                    flex: 1,
-                                    flexDirection: 'column',
-                                    alignItems: 'flex-start',
-                                    marginHorizontal: 10,
-                                }}
-                            >
-                                <Text
-                                    style={{
-                                        fontSize: 16,
-                                        fontWeight: 'bold',
-                                        color: colors.white,
-                                    }}
-                                >{episode.title}</Text>
-                                <Text
-                                    style={{
-                                        color: colors.white,
-                                    }}
-                                    numberOfLines={4}
-                                >
-                                    {episode.overview}
-                                </Text>
-                            </View>
-                            {
-                                selectedEpisode?.id === episode.id &&
-                                <View
-                                    style={{
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        height: 50,
-                                    }}
-                                >
-                                    {
-                                        !isLoaded ?
-                                            <ActivityIndicator size="small" color={colors.red} />
-                                            :
-                                            <Icon
-                                                name="play"
-                                                size={30}
-                                                color={colors.white}
-                                            />
-                                    }
-                                </View>
-                            }
-                        </View>
-                    </TouchableOpacity>
-                ))
-            }
-        </View>
-    )
-}
+      <View style={{ padding: 10 }}>
+        <Text style={{ color: colors.white, fontSize: 16, fontWeight: 'bold', marginBottom: 10 }}>
+          الحلقات
+        </Text>
+        <Text style={{ color: colors.gray }}>لا توجد حلقات متاحة حالياً.</Text>
+      </View>
+    );
+  }
 
-export default TvEpisodes
+  return (
+    <View style={{ paddingHorizontal: 10, paddingBottom: 10 }}>
+      <Text
+        style={{
+          color: colors.white,
+          fontSize: 16,
+          fontWeight: 'bold',
+          marginBottom: 10,
+        }}>
+        الحلقات
+      </Text>
+      {episodeData.map((episode) => {
+        const isSelected = selectedEpisode?.id === episode.id;
+        const episodeTitle = episode.title || episode.name || `الحلقة ${episode.episode_number || episode.episode || 1}`;
+
+        return (
+          <TouchableOpacity
+            key={episode.id}
+            onPress={() => {
+              setSelectedEpisode(episode);
+            }}
+            activeOpacity={0.8}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                backgroundColor: isSelected ? colors.darkGray : colors.black,
+                borderWidth: 1,
+                borderColor: isSelected ? colors.red : colors.darkGray,
+                borderRadius: 10,
+                padding: 10,
+                marginBottom: 8,
+              }}>
+              {/* Episode Image */}
+              <Image
+                source={
+                  episode?.image
+                    ? { uri: episode.image }
+                    : require('~/assets/logo/logo.png')
+                }
+                style={{
+                  width: 90,
+                  height: 60,
+                  borderRadius: 8,
+                  backgroundColor: colors.darkGray,
+                }}
+                resizeMode="cover"
+              />
+
+              {/* Episode Info */}
+              <View style={{ flex: 1, marginLeft: 12 }}>
+                <Text
+                  style={{
+                    color: colors.white,
+                    fontWeight: 'bold',
+                    fontSize: 15,
+                    marginBottom: 3,
+                  }}
+                  numberOfLines={2}>
+                  {episodeTitle}
+                </Text>
+                <Text
+                  style={{
+                    color: colors.gray,
+                    fontSize: 12,
+                  }}
+                  numberOfLines={2}>
+                  {episode.overview || `الحلقة ${episode.episode_number || episode.episode || 1}`}
+                </Text>
+              </View>
+
+              {/* Play / Loading Indicator */}
+              <View
+                style={{
+                  width: 36,
+                  height: 36,
+                  borderRadius: 18,
+                  backgroundColor: isSelected ? colors.red : colors.darkGray,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                {!isLoaded && isSelected ? (
+                  <ActivityIndicator size="small" color={colors.white} />
+                ) : (
+                  <Icon
+                    name="play"
+                    size={16}
+                    color={colors.white}
+                  />
+                )}
+              </View>
+            </View>
+          </TouchableOpacity>
+        );
+      })}
+    </View>
+  );
+};
+
+export default TvEpisodes;

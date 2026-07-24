@@ -1,99 +1,67 @@
-import { View, Text, ActivityIndicator } from 'react-native'
-import React, { useEffect } from 'react'
-import { Picker } from '@react-native-picker/picker';
-import tmdb from '~/api/tmdb'
-import solarmovie from '~/api/solarmovie';
-import {colors, sizes} from '~/constants/theme'
-import SelectDropdown from 'react-native-select-dropdown'
+import React from 'react';
+import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { colors, sizes } from '~/constants/theme';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { back } from 'react-native/Libraries/Animated/Easing';
 
 const TvDetails = ({ setSelectedSeason, seasonData, selectedSeason }) => {
-
-
+  if (!seasonData || seasonData.length === 0) {
     return (
-        <View>
+      <View style={{ padding: 10 }}>
+        <Text style={{ color: colors.white, fontSize: 16 }}>جاري تحميل المواسم...</Text>
+      </View>
+    );
+  }
+
+  return (
+    <View style={{ padding: 10 }}>
+      <Text
+        style={{
+          color: colors.white,
+          fontSize: 16,
+          fontWeight: 'bold',
+          marginBottom: 10,
+        }}>
+        المواسم
+      </Text>
+      <ScrollView
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 5 }}>
+        {seasonData.map((season) => (
+          <TouchableOpacity
+            key={season.id || season.season_number || season.season}
+            onPress={() => {
+              setSelectedSeason(season);
+            }}
+            activeOpacity={0.7}>
             <View
+              style={{
+                backgroundColor:
+                  selectedSeason?.id === season.id ? colors.red : colors.darkGray,
+                borderColor: colors.white,
+                borderWidth: 1,
+                borderRadius: 10,
+                paddingVertical: 12,
+                paddingHorizontal: 16,
+                marginRight: 8,
+                minWidth: 100,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Text
                 style={{
-                    padding: 10,
-                }}
-            >
-                <Text
-                    style={{
-                        color: colors.white,
-                    }}
-                >{selectedSeason?.overview}</Text>
-            </View>
-            {
-                seasonData?.length > 0 ? 
-                    <SelectDropdown
-                        data={seasonData}
-                        defaultValue={selectedSeason}
-                        buttonStyle={{
-                            color: colors.white,
-                            backgroundColor: colors.black,
-                            borderColor: colors.white,
-                            borderWidth: 1,
-                            borderRadius: 10,
-                            margin: 10,
-                        }}
-                        renderDropdownIcon={() => {
-                            return <Icon
-                                name="chevron-down"
-                                size={sizes.width * 0.08}
-                                color={colors.white}
-                            />
-                        }}
-                        dropdownIconPosition="right"
-                        buttonTextStyle={{
-                            color: colors.white,
-                        }}
-                        onSelect={(selectedItem, index) => {
-                            setSelectedSeason(seasonData?.find(season => season.id === selectedItem?.id))
-                        }}
-                        buttonTextAfterSelection={(selectedItem, index) => {
-                            return selectedItem?.title || selectedItem?.name
-                        }}
-                        rowTextForSelection={(item, index) => {
-                            return item.title || item.name
-                        }}
-                    />
-                    // <View
-                    //     style={{
-                    //         color: colors.white,
-                    //         borderColor: colors.white,
-                    //         borderWidth: 1,
-                    //         borderRadius: 10,
-                    //         margin: 10,
-                    //     }}
-                    // >
-                    //     <Picker
-                    //         themeVariant="dark"
-                    //         selectedValue={selectedSeason?.id}
-                    //         style={{
-                    //             color: colors.white,
-                    //         }}
-                    //         onValueChange={(itemValue, itemIndex) => {
-                    //             setSelectedSeason(seasonData.find(season => season.id === itemValue))
-                    //         }
-                    //         }>
-                    //         {seasonData?.map(season => (
-                    //             <Picker.Item style={{
-                    //                 color: colors.white,
-                    //             }} key={season.id} label={season.title} value={season.id} />
-                    //         ))}
-                    //     </Picker>
-                    // </View>
-                : 
-                <View style={{
-                    padding: 10,
+                  color: colors.white,
+                  fontSize: 14,
+                  fontWeight: 'bold',
                 }}>
-                    <ActivityIndicator size="large" color={colors.red} />
-                </View>
+                {season.title || season.name || `موسم ${season.season_number || season.season || 1}`}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+    </View>
+  );
+};
 
-            }
-        </View>
-    )
-}
-
-export default TvDetails
+export default TvDetails;
